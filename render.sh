@@ -13,69 +13,92 @@ bold=true
 output=echo
 tx2=
 
+# usage
 usage() {
 	echo ""
 	echo "Usage: $0 <ooxml-template>"
 	echo ""
 	echo "Options:"
-	echo "  -h show help"
-	echo "  -l disable bold for 1st/last/total rows and cols (default is enabled)"
-	echo "  -i inside borders size (in points, default is ${insize})"
-	echo "  -j disable inside borders styles (default is enabled)"
-	echo "  -o outside borders size (in points, default is ${outsize})"
-	echo "  -p disable outside borders styles (default is enabled)"
-	echo "  -b border color (default is current rendering color, has to be tx1/dk1/...)"
-	echo "  -t alternate row tinting with current color: only/both/off (default is ${tinting})"
-	echo "  -a alternate row tinting colors transparency percentage (default is ${altalpha}%, 0 to disable banding)"
-	echo "  -c alternate row tinting color for tx1 rows (default is ${altdef})"
-	echo "  -2 enable tx2 based style rendering (default is off)"
-	echo "  -x output mode. possible values are"
-	echo "     * echo (default)"
-	echo "     * copy for clipboard"
-	echo "     * filename of PPTX file to update in-place (make a backup first!)"
+	echo "  -h, --help         show help"
+	echo "  -l, --light-mode   disable bold for 1st/last/total rows and cols (default is enabled)"
+	echo "  -i, --inbdr-size   inside borders size (in points, default is ${insize})"
+	echo "      --no-inbdr     disable inside borders styles (default is enabled)"
+	echo "  -o, --outbdr-size  outside borders size (in points, default is ${outsize})"
+	echo "      --no-outbdr    disable outside borders styles (default is enabled)"
+	echo "  -b, --bdr-color    border color (default is current rendering color, has to be tx1/dk1/...)"
+	echo "  -t, --tinting      alternate row tinting with current color: only/both/off (default is ${tinting})"
+	echo "  -a, --alt-alpha    alternate row tinting colors transparency percentage (default is ${altalpha}%, 0 to disable banding)"
+	echo "  -c, --alt-color    alternate row tinting color for tx1 rows (default is ${altdef})"
+	echo "  -2, --tx2          enable tx2 based style rendering (default is off)"
+	echo "  -x, --output       output mode. possible values are"
+	echo "                       * echo (default)"
+	echo "                       * copy for clipboard"
+	echo "                       * filename of PPTX file to update in-place (make a backup first!)"
 	echo ""
 	echo "Example:"
-	echo "  $0 -x presentation.pptx -a 20 -l template.xml"
-	exit 1
+	echo "  $0 --output=presentation.pptx -a 20 -l template.xml"
+	exit 2
+}
+
+# check args
+needs_arg() {
+	if [ -z "$OPTARG" ]; then
+		echo ""
+		echo "Argument missing for --$o option";
+		echo "Use --$o=... syntax";
+		exit 2;
+	fi
 }
 
 # parse arguments
-while getopts "hlb:i:jo:pa:c:t:2x:" o; do
-  case "${o}" in
-		h)
+while getopts "hlb:i:jo:pa:c:t:2x:-:" o; do
+	if [ "$o" = "-" ]; then   # long option: reformulate OPT and OPTARG
+    o="${OPTARG%%=*}"       # extract long option name
+    OPTARG="${OPTARG#$o}"   # extract long option argument (may be empty)
+    OPTARG="${OPTARG#=}"    # if long option argument, remove assigning `=`
+  fi
+	case "${o}" in
+		h | help)
 			usage
 			;;
-		l)
+		l | light-mode)
 			bold=false
 			;;
-    b)
+    b | bdr-color)
+			needs_arg
       border=${OPTARG}
       ;;
-		i)
+		i | inbdr-size)
+			needs_arg
 			insize=${OPTARG}
 			;;
-		j)
+		no-inbdr)
 			inside=false
 			;;
-		o)
+		o | outbdr-size)
+			needs_arg
 			outsize=${OPTARG}
 			;;
-		p)
+		no-outbdr)
 			outside=false
 			;;
-		a)
+		a | alt-alpha)
+			needs_arg
 			altalpha=${OPTARG}
 			;;
-		c)
+		c | alt-color)
+			needs_arg
 			altdef=${OPTARG}
 			;;
-    t)
+    t | tinting)
+			needs_arg
       tinting=${OPTARG}
       ;;
-		2)
+		2 | tx2)
 			tx2=tx2
 			;;
-		x)
+		x | output)
+			needs_arg
 			output=${OPTARG}
 			;;
     *)
