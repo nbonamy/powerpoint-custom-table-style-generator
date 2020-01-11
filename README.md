@@ -6,7 +6,7 @@ Allows you to create custom style file for your PowerPoint tables. It will gener
 
 ## Installation
 
-You need to install [gomplate](https://docs.gomplate.ca/). On MacOS you can install it using brew:
+You need to install [gomplate](https://docs.gomplate.ca/installing/). On MacOS you can install it using brew:
 ````
 brew install gomplate
 ````
