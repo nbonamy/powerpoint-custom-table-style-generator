@@ -13,12 +13,16 @@ brew install gomplate
 
 ## Execution
 
-In a Terminal run `./render.sh` to get help on available options. To run the program on the default template, use:
+In a Terminal run `./render.sh` to get help on available options.
+
+You can use the default template and example file to test the various options:
 ````
-./render.sh template.xml
+./render.sh -x example.pptx -i 2 -o 5 -a 35 template.xml
 ````
 
-To copy the result to your clipboard, use the `-x copy` option. You can also edit a PPTX file in-place using `-x filename.pptx`.
+Do not forget to close and reopen `example.pptx` file in PowerPoint to see the results.
+
+To copy the result to your clipboard (for use with [OOXML Tools extension](https://chrome.google.com/webstore/detail/ooxml-tools/bjmmjfdegplhkefakjkccocjanekbapn?hl=en) for instance), use the `-x copy` option.
 
 ## Background information
 
