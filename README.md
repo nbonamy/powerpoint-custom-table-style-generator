@@ -18,7 +18,6 @@ In Google Chrome, install the [OOXML Tools](https://chrome.google.com/webstore/d
 In a Terminal run `./render.sh` to get help on available options. To run the program on the default template, use:
 ````
 ./render.sh template.xml
-
 ````
 
 The result is stored in your clipboard. You can paste it to replace the contents of `tableStyles.xml`. You will need to manually delete the final empty line after pasting.
