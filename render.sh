@@ -5,8 +5,8 @@ usage() {
 	echo "Options:"
 	echo "  -h show help"
 	echo "  -b borderColor (default is current rendering color)"
-	echo "  -i inside borders size (0 to disable)"
-	echo "  -o outside borders size (0 to disable)"
+	echo "  -i inside borders size"
+	echo "  -o outside borders size"
 	echo "  -a alternate row colors (off to disable else list of CSS color codes without #)"
 	echo "  -t alternate row tinting with current color: only/both/off (default is both)"
 	echo "  -2 enable tx2 rendering (default is off)"
@@ -16,7 +16,7 @@ usage() {
 
 # defaults
 inside=3175
-outside=15875
+outside=28575
 output=pbcopy
 border=\'\'
 tinting=both
@@ -66,20 +66,8 @@ fi
 # data source, start with border
 ds=$(mktemp)
 echo "borderColor: ${border}" > ${ds}
-
-# inside border
-if [ "$inside" == "0" ]; then
-	echo "innerBorder: 0" >> ${ds}
-else
-	echo "innerBorder: 0 ${inside}" >> ${ds}
-fi
-
-# outside border
-if [ "$outside" == "0" ]; then
-	echo "outerBorder: 0" >> ${ds}
-else
-	echo "outerBorder: 0 ${outside}" >> ${ds}
-fi
+echo "innerBorder: ${inside}" >> ${ds}
+echo "outerBorder: ${outside}" >> ${ds}
 
 # alternate will force tinting
 if [ "$alternate" == "off" ]; then
@@ -100,7 +88,7 @@ echo "colors: tx1 ${tx2} accent1 accent2 accent3 accent4 accent5 accent6" | sed 
 echo "alternate: ${alternate}" >> ${ds}
 
 # do it
-cat ${ds}
+#cat ${ds}
 gomplate -d data=file://${ds}?type=application/yaml -f ${template} | sed '/^[[:space:]]*$/d' | ${output}
 rm ${ds}
 echo "Done!"

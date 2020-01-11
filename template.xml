@@ -1,14 +1,16 @@
 {{- $borderColor := (datasource "data").borderColor -}}
-{{- $colorNames := slice "white" "red" "orange" "yellow" "green" "darkgreen" "darkblue" "blue" }}
+{{- $colorNames := slice "white" "red" "orange" "yellow" "green" "blue" "darkblue" }}
 {{- $alternateFlag := (datasource "data").alternate -}}
-{{- $altBgColors := eq $alternateFlag "on" | ternary (slice "343D4F" "332C3D" "34343E" "333C40" "263C41" "22363D" "23324C" "23384F") $alternateFlag -}}
+{{- $altBgColors := eq $alternateFlag "on" | ternary (slice "343D4F" "332C3D" "34343E" "333C40" "263C41" "23324C" "23384F") $alternateFlag -}}
+{{- $innerBorderSize := (datasource "data").innerBorder -}}
+{{- $outerBorderSize := (datasource "data").outerBorder -}}
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:tblStyleLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" def="{0817EA92-75D0-4044-A80A-286907CE0000}">
 	{{- range $idxTint, $tinting := split (conv.ToString (datasource "data").tinting) " " -}}
-	{{- range $idxOuter, $outerBorder := split (conv.ToString (datasource "data").outerBorder) " " -}}
-	{{- range $idxInner, $innerBorder := split (conv.ToString (datasource "data").innerBorder) " " -}}
+	{{- range $idxOuter, $outerBorder := slice 0 $outerBorderSize -}}
+	{{- range $idxInner, $innerBorder := slice 0 $innerBorderSize -}}
 	{{- range $idxColor, $color := split ((datasource "data").colors) " " }}
-	<a:tblStyle styleId="{0817EA92-75D0-4044-A80A-286907CE{{ $idxTint }}{{ $idxColor }}{{ $idxInner }}{{ $idxOuter }}}" styleName="{{ index $colorNames $idxColor }}{{ eq $tinting "0" | ternary "" "-tinted" }}{{ eq $innerBorder "0" | ternary "" "-inner" }}{{ eq $outerBorder "0" | ternary "" "-outer" }}">
+	<a:tblStyle styleId="{0817EA92-75D0-4044-A80A-286907CE{{ $idxTint }}{{ $idxColor }}{{ $idxInner }}{{ $idxOuter }}}" styleName="{{ index $colorNames $idxColor }}{{ eq $tinting "0" | ternary "" "-tinted" }}{{ eq $innerBorder 0 | ternary "" "-inner" }}{{ eq $outerBorder 0 | ternary "" "-outer" }}">
 		<a:wholeTbl>
 			<a:tcTxStyle>
 				<a:fontRef idx="minor">
@@ -123,16 +125,16 @@
 			</a:tcTxStyle>
 			<a:tcStyle>
 				<a:tcBdr>
-					{{- if not (eq $outerBorder "0") }}
+					{{- if not (eq $outerBorder 0) }}
 					<a:left>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
 						</a:ln>
 					</a:left>
 					<a:right>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
@@ -140,29 +142,20 @@
 					</a:right>
 					{{- end }}
 					<a:top>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
 						</a:ln>
 					</a:top>
-					{{- if not (eq $outerBorder "0") }}
+					{{- if not (eq $outerBorder 0) }}
 					<a:bottom>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
 						</a:ln>
 					</a:bottom>
-					{{- end }}
-					{{- if not (eq $innerBorder "0") }}
-					<a:insideH>
-						<a:ln w="{{ $innerBorder }}" cmpd="sng">
-							<a:solidFill>
-								<a:schemeClr val="{{ $color }}"/>
-							</a:solidFill>
-						</a:ln>
-					</a:insideH>
 					{{- end }}
 				</a:tcBdr>
 			</a:tcStyle>
@@ -176,16 +169,16 @@
 			</a:tcTxStyle>
 			<a:tcStyle>
 				<a:tcBdr>
-					{{- if not (eq $outerBorder "0") }}
+					{{- if not (eq $outerBorder 0) }}
 					<a:left>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
 						</a:ln>
 					</a:left>
 					<a:right>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
@@ -193,28 +186,19 @@
 					</a:right>
 					{{- end }}
 					<a:top>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
 						</a:ln>
 					</a:top>
 					<a:bottom>
-						<a:ln w="31750" cmpd="sng">
+						<a:ln w="{{ $outerBorderSize }}" cmpd="sng">
 							<a:solidFill>
 								<a:schemeClr val="{{ $color }}"/>
 							</a:solidFill>
 						</a:ln>
 					</a:bottom>
-					{{- if not (eq $innerBorder "0") }}
-					<a:insideH>
-						<a:ln w="{{ $innerBorder }}" cmpd="sng">
-							<a:solidFill>
-								<a:schemeClr val="{{ $color }}"/>
-							</a:solidFill>
-						</a:ln>
-					</a:insideH>
-					{{- end }}
 				</a:tcBdr>
 			</a:tcStyle>
 		</a:firstRow>
