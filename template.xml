@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:tblStyleLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" def="{0817EA92-75D0-4044-A80A-286907CE0000}">
+	{{- range $idxOuter, $outerBorder := slice "0" "15875" -}}
+	{{- range $idxInner, $innerBorder := slice "3175" "0" -}}
+	{{- range $idxColor, $color := slice "tx1" "accent1" "accent2" "accent3" "accent4" "accent5" "accent6" }}
+	<a:tblStyle styleId="{0817EA92-75D0-4044-A80A-286907CE0{{ $idxColor }}{{ $idxInner }}{{ $idxOuter }}}" styleName="Custom-{{ $color }}-{{ $innerBorder }}-{{ $outerBorder }}">
+		<a:wholeTbl>
+			<a:tcTxStyle>
+				<a:fontRef idx="minor">
+					<a:prstClr val="black"/>
+				</a:fontRef>
+				<a:schemeClr val="tx1"/>
+			</a:tcTxStyle>
+			<a:tcStyle>
+				<a:tcBdr>
+					<a:left>
+						<a:ln w="{{ $outerBorder }}" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="tx1"/>
+							</a:solidFill>
+						</a:ln>
+					</a:left>
+					<a:right>
+						<a:ln w="{{ $outerBorder }}" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="tx1"/>
+							</a:solidFill>
+						</a:ln>
+					</a:right>
+					<a:top>
+						<a:ln w="{{ $outerBorder }}" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="tx1"/>
+							</a:solidFill>
+						</a:ln>
+					</a:top>
+					<a:bottom>
+						<a:ln w="{{ $outerBorder }}" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="tx1"/>
+							</a:solidFill>
+						</a:ln>
+					</a:bottom>
+					<a:insideH>
+						<a:ln w="{{ $innerBorder }}" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="tx1"/>
+							</a:solidFill>
+						</a:ln>
+					</a:insideH>
+					<a:insideV>
+						<a:ln w="{{ $innerBorder }}" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="tx1"/>
+							</a:solidFill>
+						</a:ln>
+					</a:insideV>
+				</a:tcBdr>
+				<a:fill>
+					<a:noFill/>
+				</a:fill>
+			</a:tcStyle>
+		</a:wholeTbl>
+		<a:band1H>
+			<a:tcStyle>
+				<a:tcBdr/>
+				<a:fill>
+					<a:solidFill>
+						<a:srgbClr val="343D4F"/>
+					</a:solidFill>
+				</a:fill>
+			</a:tcStyle>
+		</a:band1H>
+		{{- if false -}}
+		<a:band2H>
+			<a:tcStyle>
+				<a:tcBdr/>
+			</a:tcStyle>
+		</a:band2H>
+		<a:band1V>
+			<a:tcStyle>
+				<a:tcBdr/>
+				<a:fill>
+					<a:noFill/>
+				</a:fill>
+			</a:tcStyle>
+		</a:band1V>
+		<a:band2V>
+			<a:tcStyle>
+				<a:tcBdr/>
+			</a:tcStyle>
+		</a:band2V>
+		{{- end }}
+		<a:lastCol>
+			<a:tcTxStyle b="on">
+				<a:fontRef idx="minor">
+					<a:prstClr val="black"/>
+				</a:fontRef>
+				<a:schemeClr val="{{ $color }}"/>
+			</a:tcTxStyle>
+		</a:lastCol>
+		<a:firstCol>
+			<a:tcTxStyle b="{{ if eq $color "tx1"}}on{{ else }}off{{ end }}">
+				<a:fontRef idx="minor">
+					<a:prstClr val="black"/>
+				</a:fontRef>
+				<a:schemeClr val="{{ $color }}"/>
+			</a:tcTxStyle>
+		</a:firstCol>
+		<a:lastRow>
+			<a:tcTxStyle b="on">
+				<a:fontRef idx="minor">
+					<a:prstClr val="black"/>
+				</a:fontRef>
+				<a:schemeClr val="{{ $color }}"/>
+			</a:tcTxStyle>
+			<a:tcStyle>
+				<a:tcBdr>
+					<a:top>
+						<a:ln w="31750" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="{{ $color }}"/>
+							</a:solidFill>
+						</a:ln>
+					</a:top>
+				</a:tcBdr>
+			</a:tcStyle>
+		</a:lastRow>
+		<a:firstRow>
+			<a:tcTxStyle b="on">
+				<a:fontRef idx="minor">
+					<a:prstClr val="black"/>
+				</a:fontRef>
+				<a:schemeClr val="{{ $color }}"/>
+			</a:tcTxStyle>
+			<a:tcStyle>
+				<a:tcBdr>
+					{{- if not (eq $outerBorder "0") }}
+					<a:left>
+						<a:ln w="31750" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="{{ $color }}"/>
+							</a:solidFill>
+						</a:ln>
+					</a:left>
+					<a:right>
+						<a:ln w="31750" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="{{ $color }}"/>
+							</a:solidFill>
+						</a:ln>
+					</a:right>
+					{{- end }}
+					<a:top>
+						<a:ln w="31750" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="{{ $color }}"/>
+							</a:solidFill>
+						</a:ln>
+					</a:top>
+					<a:bottom>
+						<a:ln w="31750" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="{{ $color }}"/>
+							</a:solidFill>
+						</a:ln>
+					</a:bottom>
+					{{- if not (eq $innerBorder "0") }}
+					<a:insideH>
+						<a:ln w="{{ $innerBorder }}" cmpd="sng">
+							<a:solidFill>
+								<a:schemeClr val="{{ $color }}"/>
+							</a:solidFill>
+						</a:ln>
+					</a:insideH>
+					{{- end }}
+				</a:tcBdr>
+			</a:tcStyle>
+		</a:firstRow>
+	</a:tblStyle>
+	{{- end }}
+	{{- end }}
+	{{- end }}
+</a:tblStyleLst>
