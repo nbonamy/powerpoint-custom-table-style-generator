@@ -21,7 +21,7 @@ usage() {
 	echo "  -p disable outside borders styles (default is enabled)"
 	echo "  -b border color (default is current rendering color, has to be tx1/dk1/...)"
 	echo "  -t alternate row tinting with current color: only/both/off (default is ${tinting})"
-	echo "  -a alternate row tinting colors transparency (percentage, default is ${altalpha}%, 0 to disable banding)"
+	echo "  -a alternate row tinting colors transparency percentage (default is ${altalpha}%, 0 to disable banding)"
 	echo "  -c alternate row tinting color for tx1 rows (default is ${altdef})"
 	echo "  -2 enable tx2 based style rendering (default is off)"
 	echo "  -x output result instead of sending to clipboard"
