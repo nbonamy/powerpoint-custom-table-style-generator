@@ -1,9 +1,9 @@
 {{- $borderColor := (datasource "data").borderColor -}}
-{{- $colorNames := slice "white" "red" "orange" "yellow" "green" "blue" "darkblue" }}
-{{- $alternateFlag := (datasource "data").alternate -}}
-{{- $altBgColors := eq $alternateFlag "on" | ternary (slice "343D4F" "332C3D" "34343E" "333C40" "263C41" "23324C" "23384F") $alternateFlag -}}
+{{- $altDefault := (datasource "data").altdefault -}}
+{{- $altAlpha := (datasource "data").altalpha -}}
 {{- $innerBorderSize := (datasource "data").innerBorder -}}
 {{- $outerBorderSize := (datasource "data").outerBorder -}}
+{{- $colorNames := split ((datasource "data").names) " "  }}
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:tblStyleLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" def="{0817EA92-75D0-4044-A80A-286907CE0000}">
 	{{- range $idxTint, $tinting := split (conv.ToString (datasource "data").tinting) " " -}}
@@ -68,13 +68,15 @@
 				</a:fill>
 			</a:tcStyle>
 		</a:wholeTbl>
-		{{- if not (eq $alternateFlag "off") -}}
+		{{- if not (eq $altAlpha 0) -}}
 		<a:band1H>
 			<a:tcStyle>
 				<a:tcBdr/>
 				<a:fill>
 					<a:solidFill>
-						<a:srgbClr val="{{ if eq $tinting "0" }}{{ index $altBgColors 0 }}{{ else }}{{ index $altBgColors $idxColor }}{{ end }}"/>
+						<a:schemeClr val="{{ if eq $tinting "0" }}{{ $altDefault }}{{ else }}{{ $color }}{{ end }}">
+							<a:alpha val="{{ mul $altAlpha 1000 }}" />
+						</a:schemeClr>
 					</a:solidFill>
 				</a:fill>
 			</a:tcStyle>

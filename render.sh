@@ -7,7 +7,8 @@ usage() {
 	echo "  -b borderColor (default is current rendering color)"
 	echo "  -i inside borders size"
 	echo "  -o outside borders size"
-	echo "  -a alternate row colors (off to disable else list of CSS color codes without #)"
+	echo "  -a alternate row colors transparency (percentage, default is 10%, 0 to disable banding)"
+	echo "  -c alternate row tinting default color (default is tx1)"
 	echo "  -t alternate row tinting with current color: only/both/off (default is both)"
 	echo "  -2 enable tx2 rendering (default is off)"
 	echo "  -x output result instead of sending to clipboard"
@@ -20,11 +21,12 @@ outside=28575
 output=pbcopy
 border=\'\'
 tinting=both
-alternate=on
+altdef=tx1
+altalpha=10
 tx2=
 
 # parse arguments
-while getopts "hb:i:o:a:t:2x" o; do
+while getopts "hb:i:o:a:c:t:2x" o; do
   case "${o}" in
 		h)
 			usage
@@ -39,7 +41,10 @@ while getopts "hb:i:o:a:t:2x" o; do
 			outside=${OPTARG}
 			;;
 		a)
-			alternate=${OPTARG}
+			altalpha=${OPTARG}
+			;;
+		c)
+			altdef=${OPTARG}
 			;;
     t)
       tinting=${OPTARG}
@@ -70,7 +75,7 @@ echo "innerBorder: ${inside}" >> ${ds}
 echo "outerBorder: ${outside}" >> ${ds}
 
 # alternate will force tinting
-if [ "$alternate" == "off" ]; then
+if [ "$altalpha" == "0" ]; then
 	tinting=off
 fi
 
@@ -83,9 +88,14 @@ elif  [ "$tinting" == "off" ]; then
 	echo "tinting: 0" >> ${ds}
 fi
 
+# color names
+names=$(echo "tx1 ${tx2} accent1 accent2 accent3 accent4 accent5 accent6" | sed 's/  / /g')
+
 # colors
-echo "colors: tx1 ${tx2} accent1 accent2 accent3 accent4 accent5 accent6" | sed 's/  / /g' >> ${ds}
-echo "alternate: ${alternate}" >> ${ds}
+echo "colors: ${names}" >> ${ds}
+echo "names: ${names}" >> ${ds}
+echo "altdefault: ${altdef}" >> ${ds}
+echo "altalpha: ${altalpha}" >> ${ds}
 
 # do it
 #cat ${ds}
