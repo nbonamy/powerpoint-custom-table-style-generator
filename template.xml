@@ -1,4 +1,5 @@
 {{- $borderColor := (datasource "data").borderColor -}}
+{{- $boldFlag := (conv.ToBool (datasource "data").bold) | ternary "on" "off" -}}
 {{- $altDefault := (datasource "data").altDefault -}}
 {{- $altAlpha := (datasource "data").altAlpha -}}
 {{- $innerBorderFlag := conv.ToBool (datasource "data").innerBorder.enable -}}
@@ -75,7 +76,7 @@
 				</a:fill>
 			</a:tcStyle>
 		</a:wholeTbl>
-		{{- if not (eq $altAlpha 0) -}}
+		{{- if not (eq $altAlpha 0) }}
 		<a:band1H>
 			<a:tcStyle>
 				<a:tcBdr/>
@@ -110,7 +111,7 @@
 		{{- end }}
 		{{- end }}
 		<a:lastCol>
-			<a:tcTxStyle b="on">
+			<a:tcTxStyle b="{{ $boldFlag }}">
 				<a:fontRef idx="minor">
 					<a:prstClr val="black"/>
 				</a:fontRef>
@@ -118,7 +119,7 @@
 			</a:tcTxStyle>
 		</a:lastCol>
 		<a:firstCol>
-			<a:tcTxStyle b="{{ if eq $color "tx1"}}on{{ else }}off{{ end }}">
+			<a:tcTxStyle b="{{ $boldFlag }}">
 				<a:fontRef idx="minor">
 					<a:prstClr val="black"/>
 				</a:fontRef>
@@ -126,7 +127,7 @@
 			</a:tcTxStyle>
 		</a:firstCol>
 		<a:lastRow>
-			<a:tcTxStyle b="on">
+			<a:tcTxStyle b="{{ $boldFlag }}">
 				<a:fontRef idx="minor">
 					<a:prstClr val="black"/>
 				</a:fontRef>
@@ -170,7 +171,7 @@
 			</a:tcStyle>
 		</a:lastRow>
 		<a:firstRow>
-			<a:tcTxStyle b="on">
+			<a:tcTxStyle b="{{ $boldFlag }}">
 				<a:fontRef idx="minor">
 					<a:prstClr val="black"/>
 				</a:fontRef>

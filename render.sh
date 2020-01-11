@@ -8,13 +8,18 @@ outsize=2.25
 border=\'\'
 tinting=both
 altdef=tx1
-altalpha=10
+altalpha=15
+bold=true
+output=echo
 tx2=
 
 usage() {
-	echo "Usage: $0 filename"
+	echo ""
+	echo "Usage: $0 <ooxml-template>"
+	echo ""
 	echo "Options:"
 	echo "  -h show help"
+	echo "  -l disable bold for 1st/last/total rows and cols (default is enabled)"
 	echo "  -i inside borders size (in points, default is ${insize})"
 	echo "  -j disable inside borders styles (default is enabled)"
 	echo "  -o outside borders size (in points, default is ${outsize})"
@@ -24,22 +29,24 @@ usage() {
 	echo "  -a alternate row tinting colors transparency percentage (default is ${altalpha}%, 0 to disable banding)"
 	echo "  -c alternate row tinting color for tx1 rows (default is ${altdef})"
 	echo "  -2 enable tx2 based style rendering (default is off)"
-	echo "  -x output result instead of sending to clipboard"
+	echo "  -x output mode. possible values are"
+	echo "     * echo (default)"
+	echo "     * copy for clipboard"
+	echo "     * filename of PPTX file to update in-place (make a backup first!)"
+	echo ""
+	echo "Example:"
+	echo "  $0 -x presentation.pptx -a 20 -l template.xml"
 	exit 1
 }
 
-# check if pbcopy exists
-if hash pbcopy 2>/dev/null; then
-	output=pbcopy
-else
-	output=cat
-fi
-
 # parse arguments
-while getopts "hb:i:jo:pa:c:t:2x" o; do
+while getopts "hlb:i:jo:pa:c:t:2x:" o; do
   case "${o}" in
 		h)
 			usage
+			;;
+		l)
+			bold=false
 			;;
     b)
       border=${OPTARG}
@@ -69,7 +76,7 @@ while getopts "hb:i:jo:pa:c:t:2x" o; do
 			tx2=tx2
 			;;
 		x)
-			output=cat
+			output=${OPTARG}
 			;;
     *)
       usage
@@ -84,9 +91,19 @@ if [ -z "${template}" ]; then
 	usage
 fi
 
-# data source, start with border color
+# check
+if [ "${output}" != "echo" ] && [ "${output}" != "copy" ]; then
+	if [ ! -f "${output}" ]; then
+		echo "File ${output} does not exist!"
+		exit 1
+	fi
+fi
+
+# data source
 ds=$(mktemp)
-echo "borderColor: ${border}" > ${ds}
+: > ${ds}
+echo "bold: ${bold}" >> ${ds}
+echo "borderColor: ${border}" >> ${ds}
 
 # inner
 echo "innerBorder:" >> ${ds}
@@ -115,10 +132,30 @@ echo "altAlpha: ${altalpha}" >> ${ds}
 
 # do it
 #cat ${ds}
-gomplate -d data=file://${ds}?type=application/yaml -f ${template} | sed '/^[[:space:]]*$/d' | ${output}
+xml=$(gomplate -d data=file://${ds}?type=application/yaml -f ${template} | sed '/^[[:space:]]*$/d')
 rm ${ds}
 
-# done
-if [ "$output" != "cat" ]; then
+# check clipboard
+if [ "${output}" == "copy" ]; then
+	if ! hash pbcopy 2>/dev/null; then
+		output=echo
+	fi
+fi
+
+# output
+if [ "${output}" == "echo" ]; then
+	echo "${xml}"
+elif [ "${output}" == "copy" ]; then
+	echo "${xml}" | pbcopy
+	echo "Content copied to clipboard!"
+else
+	tmp=$(mktemp -d)
+	output=$(realpath "${output}")
+	unzip -q -d ${tmp} "${output}"
+	echo "${xml}" > ${tmp}/ppt/tableStyles.xml
+	cd ${tmp}
+	zip -q -f -r "${output}" *
+	cd - > /dev/null
+	rm -rf ${tmp}
 	echo "Done!"
 fi
