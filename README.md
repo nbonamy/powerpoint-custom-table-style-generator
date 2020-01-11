@@ -6,7 +6,7 @@ Allows you to create custom style file for your PowerPoint tables. It will gener
 
 ## Installation
 
-You need to install [gomplate](https://docs.gomplate.ca/). On MacOS you can install it using brew:
+You need to install [gomplate](https://docs.gomplate.ca/installing/). On MacOS you can install it using brew:
 ````
 brew install gomplate
 ````
@@ -32,3 +32,4 @@ Everything about creating custom table styles by hacking the PowerPoint XML can 
 - [Part 2: Table Styles Complete](http://www.brandwares.com/bestpractices/2015/08/xml-hacking-table-styles-complete/)
 - [Part 3: Setting the table default text](http://www.brandwares.com/bestpractices/2015/03/xml-hacking-default-table-text/)
 
+Border sizes are expressed in `emu`. You can use this [converter](http://lcorneliussen.de/raw/dashboards/ooxml/).
