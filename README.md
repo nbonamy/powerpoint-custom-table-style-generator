@@ -1,6 +1,6 @@
 # powerpoint-custom-table-style-generator
 
-Allows you to create custom style file for your PowerPoint tables. It will generate custom styles for your text and accent colors. For instance:
+Allows you to create custom style file for your PowerPoint tables. It will generate custom styles for all your accent colors the same way PowerPoint creates its default styles. For instance:
 
 <img src="./example.png" height="200">
 
