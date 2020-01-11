@@ -1,12 +1,13 @@
-{{- $borderColor := "" -}}
+{{- $borderColor := (datasource "data").borderColor -}}
 {{- $colorNames := slice "white" "red" "orange" "yellow" "green" "darkgreen" "darkblue" "blue" }}
-{{- $altBgColors := slice "343D4F" "332C3D" "34343E" "333C40" "263C41" "22363D" "23324C" "23384F" -}}
+{{- $alternateFlag := (datasource "data").alternate -}}
+{{- $altBgColors := eq $alternateFlag "on" | ternary (slice "343D4F" "332C3D" "34343E" "333C40" "263C41" "22363D" "23324C" "23384F") $alternateFlag -}}
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:tblStyleLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" def="{0817EA92-75D0-4044-A80A-286907CE0000}">
-	{{- range $idxTint, $tinting := slice "1" "0" -}}
-	{{- range $idxOuter, $outerBorder := slice "0" "15875" -}}
-	{{- range $idxInner, $innerBorder := slice "0" "3175" -}}
-	{{- range $idxColor, $color := slice "tx1" "tx2" "accent1" "accent2" "accent3" "accent4" "accent5" "accent6" }}
+	{{- range $idxTint, $tinting := split (conv.ToString (datasource "data").tinting) " " -}}
+	{{- range $idxOuter, $outerBorder := split (conv.ToString (datasource "data").outerBorder) " " -}}
+	{{- range $idxInner, $innerBorder := split (conv.ToString (datasource "data").innerBorder) " " -}}
+	{{- range $idxColor, $color := split ((datasource "data").colors) " " }}
 	<a:tblStyle styleId="{0817EA92-75D0-4044-A80A-286907CE{{ $idxTint }}{{ $idxColor }}{{ $idxInner }}{{ $idxOuter }}}" styleName="{{ index $colorNames $idxColor }}{{ eq $tinting "0" | ternary "" "-tinted" }}{{ eq $innerBorder "0" | ternary "" "-inner" }}{{ eq $outerBorder "0" | ternary "" "-outer" }}">
 		<a:wholeTbl>
 			<a:tcTxStyle>
@@ -65,6 +66,7 @@
 				</a:fill>
 			</a:tcStyle>
 		</a:wholeTbl>
+		{{- if not (eq $alternateFlag "off") -}}
 		<a:band1H>
 			<a:tcStyle>
 				<a:tcBdr/>
@@ -94,6 +96,7 @@
 				<a:tcBdr/>
 			</a:tcStyle>
 		</a:band2V>
+		{{- end }}
 		{{- end }}
 		<a:lastCol>
 			<a:tcTxStyle b="on">
