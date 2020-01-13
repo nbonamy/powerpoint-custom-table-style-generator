@@ -28,7 +28,7 @@ To copy the result to your clipboard (for use with [OOXML Tools extension](https
 
 You can of course customize the template to your needs. You will need to:
 - get PowerPoint XML knowledge (see next section)
-- get gomplate syntax knowledge
+- get [gomplate syntax](https://docs.gomplate.ca/syntax/) knowledge
 
 And do not hesitate to share your templates through a PR!
 
