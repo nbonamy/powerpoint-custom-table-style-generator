@@ -24,6 +24,14 @@ Do not forget to close and reopen `example.pptx` file in PowerPoint to see the r
 
 To copy the result to your clipboard (for use with [OOXML Tools extension](https://chrome.google.com/webstore/detail/ooxml-tools/bjmmjfdegplhkefakjkccocjanekbapn?hl=en) for instance), use the `-x copy` option.
 
+## Customizing the template
+
+You can of course customize the template to your needs. You will need to:
+- get PowerPoint XML knowledge (see next section)
+- get gomplate syntax knowledge
+
+And do not hesitate to share your templates through a PR!
+
 ## Background information
 
 Everything about creating custom table styles by hacking the PowerPoint XML can be found on John Korchok site:
