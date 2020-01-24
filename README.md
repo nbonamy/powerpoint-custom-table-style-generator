@@ -2,7 +2,7 @@
 
 Allows you to create custom style file for your PowerPoint tables. It will generate custom styles for all your accent colors the same way PowerPoint creates its default styles. For instance:
 
-<img src="./example.png" height="200">
+<img src="./toolbar.png" height="200"> <img src="./example.png" height="200">
 
 ## Installation
 
