@@ -8,7 +8,7 @@ Allows you to create custom style file for your PowerPoint tables. It will gener
 
 You need to install [gomplate](https://docs.gomplate.ca/installing/). You also need `realpath` to be available.
 
-On MacOS you can install it using brew:
+On MacOS you can install those using [brew](https://brew.sh/):
 ````
 brew install coreutils
 brew install gomplate
